@@ -2,8 +2,15 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import MapView from "react-native-maps";
+import data from './data.js';
+import {useEffect} from "react";
 
 export default function App() {
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map} showsUserLocation={true} initialRegion={{
@@ -12,6 +19,19 @@ export default function App() {
         latitudeDelta: 0.1,
         longitudeDelta: 0.05,
       }}>
+        {data.map((item) => {
+          return (
+            <MapView.Marker
+              key={item.id}
+              coordinate={{
+                latitude: item.location.latitude,
+                longitude: item.location.longitude,
+              }}
+              title={item.name}
+              description={item.phone}
+            />
+          );
+        })}
       </MapView>
     </View>
   );
